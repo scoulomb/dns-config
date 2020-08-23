@@ -125,11 +125,11 @@ When using redirection it points to Gandi redirection webserver.
 
 ## Notes 
 
-- Page compliant with https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md
-- Authortiative reverse : https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/2-modify-tld-ns-record.md#note-about-reverse-zone =>OK
+- Page compliant with https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md (ok updated)
+- Authortiative reverse : https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/2-modify-tld-ns-record.md#note-about-reverse-zone =>OK (updated)
 - gist alignment and official doc (same pattern as the appendix ): https://gist.github.com/matt-bailey/bbbc181d5234c618e4dfe0642ad80297 => OK
 - resolution flow: see [example of resolution](#Example-of-resolution) =>OK
-- cache: https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/3-dns-propagation-effect.md
+- cache: https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/3-dns-propagation-effect.md (ok updated)
 => if proxy issue change machine => OK
 - coulombel.site and sylvain.coulombel.site not working 
 
