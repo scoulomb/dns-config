@@ -2,12 +2,14 @@
 ; I set negative cache ttl to 300, https://fr.wikipedia.org/wiki/SOA_Resource_Record
 
 ; coulombel.site
-; A redirection is defined http://coulombel.site PERMANENT http://scoulomb.github.io
+; A DOUBLE redirection is defined https://coulombel.site + http://coulombel.site PERMANENT https://scoulomb.github.io
+; (note tried as Gandi specific but could have used coulombel.it as for sysy in readme)
 ; Note this record is generated when creating a redirection
 ; nslookup -type=ptr 217.70.184.38 -> 38.184.70.217.in-addr.arpa name = webredir.vip.gandi.net.
 @ 300 IN A 217.70.184.38
 
 ; sylvain.coulombel.site
-; A redirection is defined http://sylvain.coulombel.site PERMANENT http://scoulomb.github.io
+; A DOUBLE redirection is defined https://sylvain.coulombel.site + http://sylvain.coulombel.site PERMANENT https://scoulomb.github.io
+; A redirection is defined http://sylvain.coulombel.site PERMANENT http://scoulomb.github.io (note tried as Gandi specific but could have used coulombel.it as for sysy in readme)
 ; Note this record is generated when creating a redirection
 sylvain 300 IN CNAME webredir.vip.gandi.net.
