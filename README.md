@@ -33,6 +33,7 @@ to point to my webpage `scoulomb.github.io`
 ## Prerequisites
 
 In https://github.com/scoulomb/scoulomb.github.io/settings, custom domain is `coulombel.it`.
+We should also enforce https.
 
 ## Example of resolution 
 
@@ -128,7 +129,22 @@ When using redirection it points to Gandi redirection webserver.
 - Page compliant with https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md (ok updated)
 - Authortiative reverse : https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/2-modify-tld-ns-record.md#note-about-reverse-zone =>OK (updated)
 - gist alignment and official doc (same pattern as the appendix ): https://gist.github.com/matt-bailey/bbbc181d5234c618e4dfe0642ad80297 => OK
-- resolution flow: see [example of resolution](#Example-of-resolution) =>OK
+- resolution flow: see [example of resolution](#Example-of-resolution) =>OK.
+If using redirection.
+We use `CNAME` to redirect to gandi: 
+````shell script
+
+[13:53][master]⚡ ~/dev/dns-config
+➤ curl cv.coulombel.it | grep title                                                                                                                                           vagrant@archlinux
+[...]
+<title>301 Moved Permanently</title>
+curl -L cv.coulombel.it --ouptut out.pdf
+# ensure DNS update (proxy etc...)
+````
+<!-- Actually not related to https://worldtechit.com/gtm-vs-ltm-difference-f5-global-local-traffic-manager/ -->
+
+Then it reuses normal resoution.
+
 - cache: https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/3-dns-propagation-effect.md (ok updated)
 => if proxy issue change machine => OK
 - coulombel.site and sylvain.coulombel.site not working 
@@ -153,5 +169,12 @@ And entry
 test	CNAME	10800	webredir.vip.gandi.net.
 ````
 
-is working directly
+is working directly.
+
 DNS config aligned with repo, waiting some time => 
+
+I also enforced https at github level so I expect that even if direction are http we are routed to https.
+From: https://docs.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https
+> You can enforce HTTPS for your GitHub Pages site to transparently redirect all HTTP requests to HTTPS.
+
+Confirm it is correct =>
