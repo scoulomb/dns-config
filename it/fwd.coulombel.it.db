@@ -1,0 +1,37 @@
+@ 86400 IN SOA ns1.gandi.net. hostmaster.gandi.net. 1598178928 10800 3600 604800 300
+; I set negative cache ttl to 300, https://fr.wikipedia.org/wiki/SOA_Resource_Record
+
+; Mail configuration
+@ 10800 IN A 217.70.184.38
+@ 10800 IN MX 10 spool.mail.gandi.net.
+@ 10800 IN MX 50 fb.mail.gandi.net.
+@ 10800 IN TXT "v=spf1 include:_mailcust.gandi.net ?all"
+_imap._tcp 10800 IN SRV 0 0 0 .
+_imaps._tcp 10800 IN SRV 0 1 993 mail.gandi.net.
+_pop3._tcp 10800 IN SRV 0 0 0 .
+_pop3s._tcp 10800 IN SRV 10 1 995 mail.gandi.net.
+_submission._tcp 10800 IN SRV 0 1 465 mail.gandi.net.
+webmail 10800 IN CNAME webmail.gandi.net.
+
+; coulombel.it
+; remove gandi parking page A record and replace to github page
+; @ 10800 IN A 217.70.184.38
+; Assumption: https://github.com/scoulomb/scoulomb.github.io/settings, custom domain is `coulombel.it`.
+@ 300 IN A 185.199.108.153
+@ 300 IN A 185.199.109.153
+@ 300 IN A 185.199.110.153
+@ 300 IN A 185.199.111.153
+
+; www.coulombel.it (suddomain exception routing on github. www case here in appendix-github-page-and-dns.md)
+; remove ganding parking page CNAME record
+; www 10800 IN CNAME webredir.vip.gandi.net.
+www 300 IN CNAME scoulomb.github.io.
+
+; sylvain.coulombel.it (scoulomb.github.io. would also work: cf consequences in appendix-github-page-and-dns.md,
+; use . instead of coulombel.it does not work at least here as extremity)
+sylvain 300 IN CNAME coulombel.it.
+
+; cv.coulombel.it
+; A redirection is defined http://cv.coulombel.it PERMANENT http://scoulomb.github.io/resume.pdf
+; Note this record is generated when creating a redirection (and removed when deleting it)
+cv 300 IN CNAME webredir.vip.gandi.net.
