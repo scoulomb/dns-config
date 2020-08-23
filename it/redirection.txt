@@ -1,0 +1,6 @@
+# Note we now need a password ton configure gmail alias to send mail in from so not possible anymore for alias
+# https://support.google.com/mail/answer/22370?hl=fr
+loyalty.sylvain sxxxxx@gmail.com
+pro.sylvain     cxxxxx@gmail.com
+sport.sylvain   cxxxxx@gmail.com
+
