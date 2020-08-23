@@ -37,6 +37,22 @@ In https://github.com/scoulomb/scoulomb.github.io/settings, custom domain is `co
 ## Example of resolution 
 
 ````shell script
+➤ nslookup -type=A sylvain.coulombel.it                                                                                                                                       vagrant@archlinuxServer:         10.0.2.3
+Address:        10.0.2.3#53
+
+Non-authoritative answer:
+sylvain.coulombel.it    canonical name = coulombel.it.
+Name:   coulombel.it
+Address: 217.70.184.38
+Name:   coulombel.it
+Address: 185.199.111.153
+Name:   coulombel.it
+Address: 185.199.109.153
+Name:   coulombel.it
+Address: 185.199.108.153
+Name:   coulombel.it
+Address: 185.199.110.153
+
 ➤ dig sylvain.coulombel.it @8.8.8.8 +additional +trace                   vagrant@archlinux
 ; <<>> DiG 9.16.0 <<>> sylvain.coulombel.it @8.8.8.8 +additional +trace
 ;; global options: +cmd
@@ -89,7 +105,7 @@ https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-githu
 
 DNS resolution flow is: 
 - `sylvain.coulombel.it` ->
--`DNS server` (autho is Gandi)` ->
+-`DNS server` (autho is Gandi) ->
 - redirect to `coulombel.it` ->
 - `DNS server` (autho is Gandi) ->
 - redirect to github IP ->
@@ -98,6 +114,12 @@ DNS resolution flow is:
 If pointing to github directly 
 sylvain 300 IN CNAME coulombel.it. -> scoulomb.github.io.
 we come back to https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md#resolution-flow,
+
+Note we do not re-process the tree to resolve `coulombel.it`, for resolution details, as a consequence it the same process as here:
+https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/1-real-own-dns-resolution-example.md.
+Where we add a supplementary `CNAME` indirection.
+
+<!-- site and it the same, com had seen little difference yes confirm OK -->
 
 When using redirection it points to Gandi redirection webserver.
 
