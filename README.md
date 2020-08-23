@@ -178,8 +178,11 @@ Thus when doing redirection outbound can be http it will be translated to https.
 Cleaner to set https.
 But if inbound only http, https will not work this is why we define the 2 (http+https). 
 
+This creates behind the scene of a SSL certificate per redirection (free purchase to be confirmed by mail).
 
 ### Dry run 
+
+(wait after configuration applied)
 
 - http://coulombel.it
 - http://www.coulombel.it
@@ -202,6 +205,8 @@ Zone file is [here](./site/fwd.coulombel.site.db).
 It is similar to it.
 
 ### Dry-run
+
+(wait after configuration applied)
 
 - http://coulombel.site
 - http://sylvain.coulombel.site
