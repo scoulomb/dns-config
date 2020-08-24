@@ -361,7 +361,11 @@ Names to check are:
 - https://cv.coulombel.it
 - https://cv.sylvain.coulombel.it
 
-(Note port 80/443 has no impact here for redirection)
+(Note port 80/443 has no impact here for redirection, there is a default port for a given protocol http->80, https->443, not the contrary so it makes sense)
+
+<!--
+Port stop there
+-->
 
 All dry run is OK
 
