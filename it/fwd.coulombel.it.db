@@ -31,9 +31,15 @@ webmail 10800 IN CNAME webmail.gandi.net.
 @ 300 IN A 185.199.111.153
 ; Resolution flow is: https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md#a-records
 ; Browsing to coulombel.it, certificate is now delivered by Gandi, let's encrypt (nothing to do as root)
-; Both curl http+https://scoulomb.github.io -> 301 to coulombel.it in https with https enforcement or not activated,
-; All page after 2016 for io domaire are https -> cf https://docs.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https )
-; curl http://coulombel.it -> 301 if enforce https otherwise content is delivered
+; curl http://coulombel.it -> 301 (wait if recently changed) if enforce https in github, to deliver in secure https. Otherwise content is delivered in non secured http
+; Browser may have policy to redirect in https even if not enforced at github level -> https://superuser.com/questions/565409/how-to-stop-an-automatic-redirect-from-http-to-https-in-chrome
+; thus if https not enforced and browser configured to not redirect in https (chrome://net-internals/#hsts, delete domain sec pol and chrome://settings/clearBrowserData)
+; we have http non secure page
+
+; Both curl http+https://scoulomb.github.io -> 301 to coulombel.it in https with https enforcement or not activated!
+; As alls page after 2016 for io domain are https -> cf https://docs.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https )
+; Thus github sets a redirection to coulombel.it.
+; Which then follow redirection flow of coulombel.it.
 
 ; -- REDIRECTION --
 
@@ -45,7 +51,7 @@ webmail 10800 IN CNAME webmail.gandi.net.
 ; Thus:
 ; - 1. A DOUBLE redirection is defined https://sylvain.coulombel.it + http://sylvain.coulombel.it PERMANENT https://scoulomb.github.io
 ; So that we can use https or http in inbound we have a double indirection
-; In outbound I could point to both http or https (as github redirect http to https for io domain)
+; In outbound I could point to both http or https (as github redirect http to https for io domain). Had tested both. Could redirect to domain itself, cf. sysy in readme
 ; - 2. Note this CNAME RECORD IS GENERATED when creating a redirection (and removed when deleting it)
 ; And when using http+https, the CNAME is different than http alone,
 ; for http alone it is webredir.vip.gandi.net. whereas for http+https it is webredir.gandi.net.
@@ -78,4 +84,4 @@ cv.sylvain 300 IN CNAME webredir.gandi.net.
 www 300 IN CNAME webredir.gandi.net.
 ; resolution details are given in example of resolution: www.coulombel.it case which includes redirection
 
-; If need to recreate from scratch (see -1,-2,-3) I propose to create redirection here and overrwrite DNS config with this file
+; If need to recreate from scratch (see -1,-2,-3) I propose to create redirection here and overrwrite DNS config with this file, edit dns record in text mode

@@ -359,7 +359,7 @@ Names to check are:
 - https://www.coulombel.it 
 - https://sylvain.coulombel.it
 - https://cv.coulombel.it
-- https://cv.sylvain.sylvain.coulombel.it
+- https://cv.sylvain.coulombel.it
 
 (Note port 80/443 has no impact here for redirection)
 
@@ -387,6 +387,18 @@ It is similar to it domain.
 
 All dry run is OK
 
+## Original URL
+And obviously 
+
+- http://scoulomb.github.io
+- http://scoulomb.github.io/resume.pdf
+- https://scoulomb.github.io
+- https://scoulomb.github.io/resume.pdf
+
+And as comment from it Zone file is [here](./it/fwd.coulombel.it.db) for `coulombel.it`.
+Note all other entries being redirection, they are also covered by certificate of let's encrypt. (cf. www case where it was our solution to be https).
+<!-- clear ok no more, let's encrypt OK -->
+
 ## Notes 
 
 - Page compliant with https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md (ok updated)
@@ -396,3 +408,8 @@ Except I explained why I used redirection for HTTPs
 - resolution flow: see [example of resolution](#Example-of-resolution) =>OK.
 - cache: https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/3-dns-propagation-effect.md (ok updated)
 => if proxy issue change machine => OK
+
+<!-- reapply conf test
+Conf reapplied -> OK for site and it. yes twice, and again (as aded comment doubt but yes and no impact anayway OK)
+Wait and dry-run Test -> OKOK
+-->
