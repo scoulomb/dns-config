@@ -1,15 +1,34 @@
+; see it/fwd.coulombel.it.db
 @ 86400 IN SOA ns1.gandi.net. hostmaster.gandi.net. 1598181295 10800 3600 604800 300
 ; I set negative cache ttl to 300, https://fr.wikipedia.org/wiki/SOA_Resource_Record
 
+; Mail configuration
+@ 10800 IN MX 10 spool.mail.gandi.net.
+@ 10800 IN MX 50 fb.mail.gandi.net.
+@ 10800 IN TXT "v=spf1 include:_mailcust.gandi.net ?all"
+_imap._tcp 10800 IN SRV 0 0 0 .
+_imaps._tcp 10800 IN SRV 0 1 993 mail.gandi.net.
+_pop3._tcp 10800 IN SRV 0 0 0 .
+_pop3s._tcp 10800 IN SRV 10 1 995 mail.gandi.net.
+_submission._tcp 10800 IN SRV 0 1 465 mail.gandi.net.
+webmail 10800 IN CNAME webmail.gandi.net.
+
+; -- REDIRECTION --
+
 ; coulombel.site
 ; A DOUBLE redirection is defined https://coulombel.site + http://coulombel.site PERMANENT https://scoulomb.github.io
-; (note tried as Gandi specific but could have used coulombel.it as for sysy in readme)
-; Note this record is generated when creating a redirection
+@ 300 IN A 217.70.184.55
 ; nslookup -type=ptr 217.70.184.38 -> 38.184.70.217.in-addr.arpa name = webredir.vip.gandi.net.
-@ 300 IN A 217.70.184.38
+; this is the address of webredir.gandi.net, as CNAME we should not use 217.70.184.38, which is ip of webredir.vip.gandi.net. when doing http+https (see IT zone file)
+; Here the redirection is at APEX as using coulombel.site;
+; Note here also if edit from http to https it does not change A record to use  webredir.gandi.net.
 
 ; sylvain.coulombel.site
 ; A DOUBLE redirection is defined https://sylvain.coulombel.site + http://sylvain.coulombel.site PERMANENT https://scoulomb.github.io
-; A redirection is defined http://sylvain.coulombel.site PERMANENT http://scoulomb.github.io (note tried as Gandi specific but could have used coulombel.it as for sysy in readme)
+sylvain 300 IN CNAME webredir.gandi.net.
+
+; cv.coulombel.site
+; A DOUBLE redirection is defined https://cv.coulombel.site + http://cv.coulombel.site PERMANENT https://cv.coulombel.it
+; Use coulombel.it to avoid multi-update (if change cv location, only it to update) and show example of not pointing to github directly (as sysy in readme)
 ; Note this record is generated when creating a redirection
-sylvain 300 IN CNAME webredir.vip.gandi.net.
+cv 300 IN CNAME webredir.gandi.net.

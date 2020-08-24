@@ -2,7 +2,6 @@
 ; I set negative cache ttl to 300, https://fr.wikipedia.org/wiki/SOA_Resource_Record, but overridden
 
 ; Mail configuration
-@ 10800 IN A 217.70.184.38
 @ 10800 IN MX 10 spool.mail.gandi.net.
 @ 10800 IN MX 50 fb.mail.gandi.net.
 @ 10800 IN TXT "v=spf1 include:_mailcust.gandi.net ?all"
@@ -13,31 +12,70 @@ _pop3s._tcp 10800 IN SRV 10 1 995 mail.gandi.net.
 _submission._tcp 10800 IN SRV 0 1 465 mail.gandi.net.
 webmail 10800 IN CNAME webmail.gandi.net.
 
+; Before any change
+; We can use both https://scoulomb.github.io, http://scoulomb.github.io
+; certificate is deliverd by Github (digicert)
+; http is redirected to http, curl http://scoulomb.github.io -> 301
+
+; Prerequisite:
+; https://github.com/scoulomb/scoulomb.github.io/settings, custom domain is `coulombel.it`.
+; And we enforce https
+; Check CNAME file: https://github.com/scoulomb/scoulomb.github.io/blob/master/CNAME is ok
+
 ; coulombel.it
 ; remove gandi parking page A record and replace to github page
-; @ 10800 IN A 217.70.184.38
-; Assumption: https://github.com/scoulomb/scoulomb.github.io/settings, custom domain is `coulombel.it`.
+; @ 10800 IN A 217.70.184.38 ; if kept load balance on one bad ip (https://www.cloudflare.com/learning/dns/glossary/round-robin-dns/)
 @ 300 IN A 185.199.108.153
 @ 300 IN A 185.199.109.153
 @ 300 IN A 185.199.110.153
 @ 300 IN A 185.199.111.153
+; Resolution flow is: https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md#a-records
+; Browsing to coulombel.it, certificate is now delivered by Gandi, let's encrypt (nothing to do as root)
+; Both curl http+https://scoulomb.github.io -> 301 to coulombel.it in https with https enforcement or not activated,
+; All page after 2016 for io domaire are https -> cf https://docs.github.com/en/github/working-with-github-pages/securing-your-github-pages-site-with-https )
+; curl http://coulombel.it -> 301 if enforce https otherwise content is delivered
 
-; www.coulombel.it (suddomain exception routing on github. www case here in appendix-github-page-and-dns.md)
-; remove ganding parking page CNAME record
-; www 10800 IN CNAME webredir.vip.gandi.net.
-www 300 IN CNAME coulombel.it.
-; or point to scoulomb.github.io. (tried ok)
+; -- REDIRECTION --
 
 ; sylvain.coulombel.it
 ; It is ok to define
 ; sylvain 300 IN CNAME coulombel.it. (use . instead of coulombel.it does not work at least here as extremity)
 ; or point to scoulomb.github.io. cf consequences in appendix-github-page-and-dns.md
-; => But this will not work at github routing level. We need to use redirection (remember www was an exception)
-; A DOUBLE redirection is defined https://sylvain.coulombel.it + http://sylvain.coulombel.it PERMANENT https://scoulomb.github.io
-; Note this record is generated when creating a redirection (and removed when deleting it)
-sylvain 300 IN CNAME webredir.vip.gandi.net.
+; => But this will not work at github routing level. We need to use redirection (remember www was the only exception, see www.coulombel.it)
+; Thus:
+; - 1. A DOUBLE redirection is defined https://sylvain.coulombel.it + http://sylvain.coulombel.it PERMANENT https://scoulomb.github.io
+; So that we can use https or http in inbound we have a double indirection
+; In outbound I could point to both http or https (as github redirect http to https for io domain)
+; - 2. Note this CNAME RECORD IS GENERATED when creating a redirection (and removed when deleting it)
+; And when using http+https, the CNAME is different than http alone,
+; for http alone it is webredir.vip.gandi.net. whereas for http+https it is webredir.gandi.net.
+; When doing a modify to change http to http+https we may miss this change
+; Indeed Gandi does not regenerate the record and keep webredir.gandi.net. (I tested it)
+; Thus all https links are broken as using  webredir.vip.gandi.net. (http)
+; To find this root cause create a http and http+https redirection and check generated records
+; - 3. Finally a certificate is generated. Note that when generation is not completed both http and https (it may work for http if pointing to bad CNAME webredir.vip.gandi.net.)
+; So all redirection are using let's encrypt
+sylvain 300 IN CNAME webredir.gandi.net.
 
 ; cv.coulombel.it
 ; A DOUBLE redirection is defined https://cv.coulombel.it + http://cv.coulombel.it	PERMANENT https://scoulomb.github.io/resume.pdf
-; Note this record is generated when creating a redirection (and removed when deleting it)
-cv 300 IN CNAME webredir.vip.gandi.net.
+cv 300 IN CNAME webredir.gandi.net.
+
+; cv.sylvain.coulombel.it
+; A DOUBLE redirection is defined https://cv.sylvain.coulombel.it + http://cv.sylvain.coulombel.it	PERMANENT https://scoulomb.github.io/resume.pdf
+cv.sylvain 300 IN CNAME webredir.gandi.net.
+
+; www.coulombel.it
+; remove ganding parking page CNAME record
+; www 10800 IN CNAME webredir.vip.gandi.net.
+; And use of the 2 solutions
+; www 300 IN CNAME coulombel.it.
+; www  300  IN CNAME scoulomb.github.io.
+; Both are working ((suddomain exception routing on github. www case here in appendix-github-page-and-dns.md)
+; But for https://www.coulombel.it we have potential security risk ahead because certificate is not valid for www.coulombel.it
+; To provide a certificate, I will use redirection
+; A DOUBLE redirection is defined https://www.coulombel.it + http://www.coulombel.it PERMANENT https://scoulomb.github.io/resume.pdf
+www 300 IN CNAME webredir.gandi.net.
+; resolution details are given in example of resolution: www.coulombel.it case which includes redirection
+
+; If need to recreate from scratch (see -1,-2,-3) I propose to create redirection here and overrwrite DNS config with this file

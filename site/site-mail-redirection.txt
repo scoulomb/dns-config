@@ -1,0 +1,4 @@
+# Note we now need a password ton configure gmail alias to send mail in from so not possible anymore for alias
+# https://support.google.com/mail/answer/22370?hl=fr
+aws.admin       sxxxxx@gmail.com
+sylvain         sxxxxx@gmail.com

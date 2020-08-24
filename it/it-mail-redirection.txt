@@ -3,4 +3,4 @@
 loyalty.sylvain sxxxxx@gmail.com
 pro.sylvain     cxxxxx@gmail.com
 sport.sylvain   cxxxxx@gmail.com
-
+admin           cxxxxx@gmail.com ; ssl certif activation but was validated before
