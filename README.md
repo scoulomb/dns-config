@@ -417,3 +417,10 @@ Except I explained why I used redirection for HTTPs
 Conf reapplied -> OK for site and it. yes twice, and again (as aded comment doubt but yes and no impact anayway OK)
 Wait and dry-run Test -> OKOK
 -->
+
+<!--
+http://www.coulombel.it is secured
+https://github.com/scoulomb/dns-config/blob/master/it/fwd.coulombel.it.db (see www.coulombel,it),
+as explained in (sylvain.coulombel.it/ section - 1)
+Not tested (because we have to stop) but if redirect to coulombel.it and not enforced https in coulombel.it I expect to have http.
+-->
